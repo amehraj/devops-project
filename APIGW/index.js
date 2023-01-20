@@ -102,6 +102,43 @@ app.get('/node-statistic', async (req, res) => {
 
 })
 
+app.get('/queue-statistic', async (req, res) => {
+  let data = []
+  axios
+    .get('http://rabbitmq:15672/api/queues/', {
+      auth: {
+           username: "guest",
+           password: "guest",
+      }
+  })
+    .then((response) => {
+        console.log('Req body:', response.data)
+        console.log('Req header :', response.headers)
+
+
+      response.data.forEach((jsonObject) => {
+          const message_delivery_rate = jsonObject.message_stats.deliver_get_details.rate
+          const message_publish_rate = jsonObject.message_stats.publish_details.rate
+          const messages_delivered_recently = jsonObject.message_stats.deliver_get
+          const messages_published_recently = jsonObject.message_stats.publish
+
+          const dataObj = { "message_delivery_rate":  message_delivery_rate, "message_publish_rate" : message_publish_rate, "messages_delivered_recently" : messages_delivered_recently, "messages_published_recently":  messages_published_recently}
+          data.push(dataObj)
+
+
+
+      })
+      console.log(data)
+      res.setHeader('content-type', 'application/json');
+      res.send(data)
+
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+
+})
+
 app.listen(port, () => {
   const dateInit = new Date(Date.now());
   const timestampInit = dateInit.toISOString();

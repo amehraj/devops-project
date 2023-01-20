@@ -53,7 +53,7 @@ describe('APIs', function() {
     it('Get rabbitmq queue statistic', async function() {
         const response = await axios.get("http://docker:8083/queue-statistic")
         console.log(response.data)
-        expect(response.data).to.not.equal("");
+        expect(response.data).to.not.equal([]);
     });
 
 });
