@@ -98,6 +98,7 @@ app.get('/node-statistic', async (req, res) => {
     })
     .catch((e) => {
         console.error(e)
+        res.send(e)
     })
 
 })
@@ -135,6 +136,7 @@ app.get('/queue-statistic', async (req, res) => {
     })
     .catch((e) => {
       console.error(e)
+      res.send(e)
     })
 
 })

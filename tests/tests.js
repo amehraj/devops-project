@@ -8,7 +8,6 @@ describe('APIs', function() {
         const response = await axios.get("http://docker:8083/state")
         console.log(response.data)
         expect(response.data).to.equal("RUNNING");
-        
     });
     it('Pause ORIG service', async function() {
         const HEADER = {
@@ -42,6 +41,18 @@ describe('APIs', function() {
         const response = await axios.get("http://docker:8083/state")
         console.log(response.data)
         expect(response.data).to.equal("RUNNING");
+    });
+
+    it('Get messages', async function() {
+        const response = await axios.get("http://docker:8083/messages")
+        console.log(response.data)
+        expect(response.data).to.not.equal('');
+    });
+
+    it('Get messages log', async function() {
+        const response = await axios.get("http://docker:8083/run-log")
+        console.log(response.data)
+        expect(response.data).to.not.equal('');
     });
 
     it('Get rabbitmq node statistic', async function() {

@@ -44,6 +44,18 @@ describe('APIs', function() {
         expect(response.data).to.equal("RUNNING");
     });
 
+    it('Get messages', async function() {
+        const response = await axios.get("http://localhost:8083/messages")
+        console.log(response.data)
+        expect(response.data).to.not.equal('');
+    });
+
+    it('Get messages log', async function() {
+        const response = await axios.get("http://localhost:8083/run-log")
+        console.log(response.data)
+        expect(response.data).to.not.equal('');
+    });
+
     it('Get rabbitmq node statistic', async function() {
         const response = await axios.get("http://localhost:8083/node-statistic")
         console.log(response.data)
