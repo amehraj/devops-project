@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import axios from 'axios';
 
+
+
 describe('APIs', function() {
     it('Get running state', async function() {
         const response = await axios.get("http://docker:8083/state")
@@ -41,4 +43,17 @@ describe('APIs', function() {
         console.log(response.data)
         expect(response.data).to.equal("RUNNING");
     });
+
+    it('Get rabbitmq node statistic', async function() {
+        const response = await axios.get("http://docker:8083/node-statistic")
+        console.log(response.data)
+        expect(response.data).to.not.equal("");
+    });
+
+    it('Get rabbitmq queue statistic', async function() {
+        const response = await axios.get("http://docker:8083/queue-statistic")
+        console.log(response.data)
+        expect(response.data).to.not.equal("");
+    });
+
 });

@@ -75,6 +75,33 @@ app.get('/run-log', async (req, res) => {
     res.send(stateLog);
 })
 
+
+app.get('/node-statistic', async (req, res) => {
+    let data = ''
+    axios
+    .get('http://rabbitmq:15672/api/nodes', {
+      auth: {
+          username: "guest",
+          password: "guest",
+      }
+    })
+    .then((response) => {
+          console.log('Req body:', response.data)
+          console.log('Req header :', response.headers)
+          data = response.data
+          const jsonObject = data[0]
+          console.log(jsonObject)
+          const statistics_data = { "fd_used" : jsonObject.fd_used,  "sockets_used" : jsonObject.sockets_used, "disk_free" : jsonObject.disk_free, "connection_created" : jsonObject.connection_created, "channel_created": jsonObject.channel_created}
+          console.log(statistics_data)
+          res.setHeader('content-type', 'application/json');
+          res.send(statistics_data)
+    })
+    .catch((e) => {
+        console.error(e)
+    })
+
+})
+
 app.listen(port, () => {
   const dateInit = new Date(Date.now());
   const timestampInit = dateInit.toISOString();
