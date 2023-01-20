@@ -12,8 +12,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/messages', async (req, res) => {
-  const response = await axios.get("http://httpserv:8081/")
-  res.end(response.data)
+    const request = http.request({
+        host: 'httpserv',
+        port: 8081,
+        path: '/',
+        method: 'GET',
+        headers: {
+          
+        }
+      }, function(response) {
+        var data = '';
+        response.setEncoding('utf8');
+        response.on('data', (chunk) => {
+          data += chunk;
+        });
+        response.on('end', () => {
+          res.end(data);
+        });
+      });
+      request.end();
 
 })
 
@@ -22,14 +39,25 @@ app.put('/state', async (req, res) => {
   const DATA = {
     state
   }
+  let data = ''
   const HEADER = {
     headers: { Accept: 'application/json' },
   }
-  const response = await axios.put("http://orig:8082/changeState", DATA, HEADER)
-  updateState(response.data)
-
-  console.log(state)
-  res.end(state)
+  axios
+    .put('http://orig:8082/changeState', DATA, HEADER)
+    .then((response) => {
+        console.log('Req body:', response.data)
+        console.log('Req header :', response.headers)
+        data = response.data
+        console.log(data)
+        
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+  updateState(state)
+  console.log(currentState)
+  res.end(currentState)
 })
 
 const updateState = (data) => {
@@ -57,6 +85,7 @@ app.listen(port, () => {
   currentState = "RUNNING";
   stateLog += timestampRunning + " " + currentState + "\r\n";
   console.log(`App listening on port ${port}`)
+  //empty the existing file
   fs.truncate('./public/file.txt', 0, err => {
     if (err) {
       console.error(err);
