@@ -4,6 +4,7 @@ import axios from 'axios';
 describe('APIs', function() {
     it('Get running state', async function() {
         const response = await axios.get("http://localhost:8083/state")
+        console.log(response.data)
         expect(response.data).to.equal("RUNNING");
         
     });
@@ -15,13 +16,13 @@ describe('APIs', function() {
             "state" : "PAUSED"
         }
         const response = await axios.put("http://localhost:8083/state", DATA, HEADER)
-        console.log(response)
+        console.log(response.data)
         expect(response.data).to.equal("PAUSED");
     });
     it('Get paused state', async function() {
-        const response2 = await axios.get("http://localhost:8083/state")
-        console.log(response2)
-        expect(response2.data).to.equal("PAUSED");
+        const response = await axios.get("http://localhost:8083/state")
+        console.log(response.data)
+        expect(response.data).to.equal("PAUSED");
     });
 
     it('Resume ORIG service', async function() {
@@ -32,12 +33,12 @@ describe('APIs', function() {
             "state" : "RUNNING"
         }
         const response = await axios.put("http://localhost:8083/state", DATA, HEADER)
-        console.log(response)
+        console.log(response.data)
         expect(response.data).to.equal("RUNNING");
     });
     it('Get running state', async function() {
-        const response2 = await axios.get("http://localhost:8083/state")
-        console.log(response2)
-        expect(response2.data).to.equal("RUNNING");
+        const response = await axios.get("http://localhost:8083/state")
+        console.log(response.data)
+        expect(response.data).to.equal("RUNNING");
     });
 });
