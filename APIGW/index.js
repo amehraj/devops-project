@@ -79,12 +79,7 @@ app.get('/run-log', async (req, res) => {
 app.get('/node-statistic', async (req, res) => {
     let data = ''
     axios
-    .get('http://rabbitmq:15672/api/nodes', {
-      auth: {
-          username: "guest",
-          password: "guest",
-      }
-    })
+    .get('http://guest:guest@rabbitmq:15672/api/nodes')
     .then((response) => {
           console.log('Req body:', response.data)
           console.log('Req header :', response.headers)
@@ -106,12 +101,7 @@ app.get('/node-statistic', async (req, res) => {
 app.get('/queue-statistic', async (req, res) => {
   let data = []
   axios
-    .get('http://rabbitmq:15672/api/queues/', {
-      auth: {
-           username: "guest",
-           password: "guest",
-      }
-  })
+    .get('http://guest:guest@rabbitmq:15672/api/queues/')
     .then((response) => {
         console.log('Req body:', response.data)
         console.log('Req header :', response.headers)
