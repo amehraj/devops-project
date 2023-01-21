@@ -61,7 +61,12 @@ app.put('/state', async (req, res) => {
 })
 
 const updateState = (data) => {
-  currentState = data
+  if(data === "INIT"){
+    currentState = "RUNNING"
+  } else {
+    currentState = data
+  }
+  
 }
 
 app.get('/state', async (req, res) => {

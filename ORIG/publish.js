@@ -28,6 +28,7 @@ const start = async (messageCount) => {
     if(currentState === "INIT"){
         await timers.setTimeout(5000);
         currentState = "RUNNING"
+        messageCount = 0
     }
 
     while(currentState === "RUNNING"){

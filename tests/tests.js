@@ -8,6 +8,7 @@ describe('APIs', function() {
         const response = await axios.get("http://docker:8083/state")
         console.log(response.data)
         expect(response.data).to.equal("RUNNING");
+        
     });
     it('Pause ORIG service', async function() {
         const HEADER = {
@@ -43,23 +44,6 @@ describe('APIs', function() {
         expect(response.data).to.equal("RUNNING");
     });
 
-    it('Init ORIG service', async function() {
-        const HEADER = {
-            headers: { Accept: 'application/json' },
-          }
-          const DATA = {
-              "state" : "INIT"
-          }
-          const response = await axios.put("http://docker:8083/state", DATA, HEADER)
-          console.log(response.data)
-          expect(response.data).to.equal("INIT");
-    });
-
-    it('Get running state after init', async function() {
-        const response = await axios.get("http://docker:8083/state")
-        console.log(response.data)
-        expect(response.data).to.equal("RUNNING");
-    });
 
     it('Get messages log', async function() {
         const response = await axios.get("http://docker:8083/run-log")
@@ -79,12 +63,22 @@ describe('APIs', function() {
         expect(response.data).to.not.equal([]);
     });
 
+    it('Init ORIG service', async function() {
+        const HEADER = {
+            headers: { Accept: 'application/json' },
+          }
+          const DATA = {
+              "state" : "INIT"
+          }
+          const response = await axios.put("http://docker:8083/state", DATA, HEADER)
+          console.log(response.data)
+          expect(response.data).to.equal("RUNNING");
+    });
+    
     it('Get messages', async function() {
         const response = await axios.get("http://docker:8083/messages")
         console.log(response.data)
         expect(response.data).to.not.equal('');
     });
-
-
 
 });
