@@ -26,6 +26,6 @@ DockerSetup:
     - docker-compose build
     - docker-compose up -d 
     - cd tests/ && npm install
-    - npm run test
+    - npm run test-docker
     
 

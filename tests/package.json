@@ -5,8 +5,8 @@
   "main": "tests.js",
   "type": "module",
   "scripts": {
-    "test": "mocha tests.js",
-    "test-local": "mocha tests-local.js"
+    "test-docker": "mocha tests.js",
+    "test": "mocha tests-local.js"
   },
   "author": "",
   "license": "ISC",
