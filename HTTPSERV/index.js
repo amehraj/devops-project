@@ -11,7 +11,7 @@ app.get('/', async (req, res) => {
           return;
         }
         console.log(data);
-        res.setHeader('content-type', 'text/plain');
+        res.setHeader('Content-Type', 'text/plain');
         res.send(data);
       });
 

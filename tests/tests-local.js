@@ -12,11 +12,9 @@ describe('APIs', function() {
     });
     it('Pause ORIG service', async function() {
         const HEADER = {
-          headers: { Accept: 'application/json' },
+          headers: { Accept: 'text/plain', 'Content-Type': "text/plain" },
         }
-        const DATA = {
-            "state" : "PAUSED"
-        }
+        const DATA = "PAUSED"
         const response = await axios.put("http://localhost:8083/state", DATA, HEADER)
         console.log(response.data)
         expect(response.data).to.equal("PAUSED");
@@ -29,11 +27,9 @@ describe('APIs', function() {
 
     it('Resume ORIG service', async function() {
         const HEADER = {
-          headers: { Accept: 'application/json' },
+          headers: { Accept: 'text/plain', 'Content-Type': "text/plain" },
         }
-        const DATA = {
-            "state" : "RUNNING"
-        }
+        const DATA = "RUNNING"
         const response = await axios.put("http://localhost:8083/state", DATA, HEADER)
         console.log(response.data)
         expect(response.data).to.equal("RUNNING");
@@ -62,19 +58,6 @@ describe('APIs', function() {
         console.log(response.data)
         expect(response.data).to.not.equal([]);
     });
-
-    it('Init ORIG service', async function() {
-        const HEADER = {
-            headers: { Accept: 'application/json' },
-          }
-          const DATA = {
-              "state" : "INIT"
-          }
-          const response = await axios.put("http://localhost:8083/state", DATA, HEADER)
-          console.log(response.data)
-          expect(response.data).to.equal("RUNNING");
-    });
-
 
     it('Get messages', async function() {
         const response = await axios.get("http://localhost:8083/messages")

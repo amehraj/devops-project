@@ -44,14 +44,16 @@ const updateMessageCount = (count) => {
     messageCount = count
 }
 
-app.put('/changeState', async (req, res) => {
-    const { state } = req.body
+app.put('/changeState', bodyParser.text({type: '*/*'}), async (req, res) => {
+    const state = req.body
+    console.log(state)
     if (state !== currentState){
         currentState = state
         console.log(currentState)
         start(messageCount)
         console.log("Process started")
     }
+    res.setHeader("Content-Type", "text/plain");
     res.send(currentState)
 })
 

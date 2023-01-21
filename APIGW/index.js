@@ -11,14 +11,14 @@ const fs = require('fs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/messages', async (req, res) => {
+app.get('/messages', bodyParser.text({type: '*/*'}), async (req, res) => {
     const request = http.request({
         host: 'httpserv',
         port: 8081,
         path: '/',
         method: 'GET',
         headers: {
-          
+           Accept: 'text/plain', 'Content-Type': "text/plain" 
         }
       }, function(response) {
         var data = '';
@@ -27,6 +27,7 @@ app.get('/messages', async (req, res) => {
           data += chunk;
         });
         response.on('end', () => {
+          res.setHeader("Content-Type", "text/plain");
           res.end(data);
         });
       });
@@ -34,14 +35,16 @@ app.get('/messages', async (req, res) => {
 
 })
 
-app.put('/state', async (req, res) => {
-  const { state } = req.body
-  const DATA = {
-    state
-  }
+app.put('/state', bodyParser.text({type: '*/*'}), async (req, res) => {
+  console.log(req.body)
+  const DATA = req.body
+  console.log(DATA)
+  // const DATA = {
+  //   state
+  // }
   let data = ''
   const HEADER = {
-    headers: { Accept: 'application/json' },
+    headers: { Accept: 'text/plain', 'Content-Type': "text/plain"},
   }
   axios
     .put('http://orig:8082/changeState', DATA, HEADER)
@@ -55,8 +58,9 @@ app.put('/state', async (req, res) => {
     .catch((e) => {
       console.error(e)
     })
-  updateState(state)
+  updateState(DATA)
   console.log(currentState)
+  res.setHeader("Content-Type", "text/plain");
   res.end(currentState)
 })
 
@@ -71,12 +75,12 @@ const updateState = (data) => {
 
 app.get('/state', async (req, res) => {
     console.log(currentState);
-    res.setHeader('content-type', 'text/plain');
+    res.setHeader('Content-Type', 'text/plain');
     res.send(currentState);
 })
 
 app.get('/run-log', async (req, res) => {
-    res.setHeader('content-type', 'text/plain');
+    res.setHeader('Content-Type', 'text/plain');
     res.send(stateLog);
 })
 
