@@ -62,7 +62,7 @@ describe('APIs', function() {
         console.log(response.data)
         expect(response.data).to.not.equal([]);
     });
-    //Get all the messages what were written in the file
+    //Get all the messages that were written in the file
     it('Get messages', async function() {
         const HEADER = {
             headers: { Accept: 'text/plain', 'Content-Type': "text/plain" },
