@@ -10,7 +10,6 @@ app.get('/', async (req, res) => {
           console.error(err);
           return;
         }
-        console.log(data);
         res.setHeader('Content-Type', 'text/plain');
         res.send(data);
       });

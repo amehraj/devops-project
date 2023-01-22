@@ -36,12 +36,7 @@ app.get('/messages', bodyParser.text({type: '*/*'}), async (req, res) => {
 })
 
 app.put('/state', bodyParser.text({type: '*/*'}), async (req, res) => {
-  console.log(req.body)
   const DATA = req.body
-  console.log(DATA)
-  // const DATA = {
-  //   state
-  // }
   let data = ''
   const HEADER = {
     headers: { Accept: 'text/plain', 'Content-Type': "text/plain"},
@@ -49,17 +44,13 @@ app.put('/state', bodyParser.text({type: '*/*'}), async (req, res) => {
   axios
     .put('http://orig:8082/changeState', DATA, HEADER)
     .then((response) => {
-        console.log('Req body:', response.data)
-        console.log('Req header :', response.headers)
         data = response.data
-        console.log(data)
         
     })
     .catch((e) => {
       console.error(e)
     })
   updateState(DATA)
-  console.log(currentState)
   res.setHeader("Content-Type", "text/plain");
   res.end(currentState)
 })
@@ -74,7 +65,6 @@ const updateState = (data) => {
 }
 
 app.get('/state', async (req, res) => {
-    console.log(currentState);
     res.setHeader('Content-Type', 'text/plain');
     res.send(currentState);
 })
@@ -90,13 +80,9 @@ app.get('/node-statistic', async (req, res) => {
     axios
     .get('http://guest:guest@rabbitmq:15672/api/nodes')
     .then((response) => {
-          console.log('Req body:', response.data)
-          console.log('Req header :', response.headers)
           data = response.data
           const jsonObject = data[0]
-          console.log(jsonObject)
           const statistics_data = { "fd_used" : jsonObject.fd_used,  "sockets_used" : jsonObject.sockets_used, "disk_free" : jsonObject.disk_free, "connection_created" : jsonObject.connection_created, "channel_created": jsonObject.channel_created}
-          console.log(statistics_data)
           res.setHeader('content-type', 'application/json');
           res.send(statistics_data)
     })
@@ -112,10 +98,6 @@ app.get('/queue-statistic', async (req, res) => {
   axios
     .get('http://guest:guest@rabbitmq:15672/api/queues/')
     .then((response) => {
-        console.log('Req body:', response.data)
-        console.log('Req header :', response.headers)
-
-
       response.data.forEach((jsonObject) => {
           const message_delivery_rate = jsonObject.message_stats.deliver_get_details.rate
           const message_publish_rate = jsonObject.message_stats.publish_details.rate
@@ -128,13 +110,11 @@ app.get('/queue-statistic', async (req, res) => {
 
 
       })
-      console.log(data)
       res.setHeader('content-type', 'application/json');
       res.send(data)
 
     })
     .catch((e) => {
-      console.error(e)
       res.send(e)
     })
 
