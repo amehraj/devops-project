@@ -9,4 +9,4 @@ Run: docker-compose up –d
 Wait for about 30 seconds. Services will be up and running by that time. 
 
 
-Documentation is in "Documentation.pdf" file.
+Documentation is in "EndReport.pdf" file.
